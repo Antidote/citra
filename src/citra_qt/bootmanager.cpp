@@ -112,6 +112,7 @@ GRenderWindow::GRenderWindow(QWidget* parent) : QWidget(parent), emu_thread(this
     fmt.setSamples(4);
     
     child = new GGLWidgetInternal(fmt, this);
+    child->doneCurrent();
     QBoxLayout* layout = new QHBoxLayout(this);
     resize(VideoCore::kScreenTopWidth, VideoCore::kScreenTopHeight + VideoCore::kScreenBottomHeight);
     layout->addWidget(child);
@@ -123,17 +124,19 @@ GRenderWindow::GRenderWindow(QWidget* parent) : QWidget(parent), emu_thread(this
 
 GRenderWindow::~GRenderWindow()
 {
+    child->doneCurrent();
     emu_thread.Stop();
 }
 
 void GRenderWindow::SwapBuffers()
 {
-    child->makeCurrent(); // TODO: Not necessary?
+    //child->makeCurrent(); // TODO: Not necessary?
     child->swapBuffers();
 }
 
 void GRenderWindow::closeEvent(QCloseEvent* event)
 {
+    child->doneCurrent();
     emu_thread.Stop();
     QWidget::closeEvent(event);
 }

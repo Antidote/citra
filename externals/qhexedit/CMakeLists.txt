@@ -4,7 +4,7 @@ set(SRCS
             qhexedit_p.cpp
             xbytearray.cpp)
 
-qt4_wrap_cpp(MOC_SRCS
+qt5_wrap_cpp(MOC_SRCS
                         qhexedit.h
                         qhexedit_p.h)
 
